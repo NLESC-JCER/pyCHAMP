@@ -2,7 +2,7 @@
 
 import os
 
-from setuptools import setup
+from setuptools import (find_packages, setup)
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -19,14 +19,12 @@ setup(
     version=version['__version__'],
     description="CHAMP QMC code in Python",
     long_description=readme + '\n\n',
+    long_description_content_type='text/markdown',
     author="Nicolas Renaud",
     author_email='n.renaud@esciencecenter.nl',
     url='https://github.com/NLESC-JCER/pyCHAMP',
-    packages=[
-        'pyCHAMP',
-    ],
-    package_dir={'pyCHAMP':
-                 'pyCHAMP'},
+    packages=find_packages(),
+    package_dir={'pyCHAMP': 'pyCHAMP'},
     include_package_data=True,
     license="Apache Software License 2.0",
     zip_safe=False,
@@ -36,7 +34,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
-        "Programming Language :: Python :: 3",
+        'intended audience :: science/research',
         'Programming Language :: Python :: 3.7',
     ],
     test_suite='tests',
@@ -51,6 +49,6 @@ setup(
     ],
     extras_require={
         'dev':  ['prospector[with_pyroma]', 'yapf', 'isort'],
-        'test': ['pytest', 'pytest-cov', 'pycodestyle'],
+        'test': ['coverage', 'pytest', 'pytest-cov', 'pycodestyle'],
     }
 )
