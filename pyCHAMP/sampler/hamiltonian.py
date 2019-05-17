@@ -1,22 +1,23 @@
-import autograd.numpy as np 
+import autograd.numpy as np
 from pyCHAMP.sampler.sampler_base import SAMPLER_BASE
 from autograd import elementwise_grad as egrad
 from pyhmc import hmc
 
+
 class HAMILTONIAN(SAMPLER_BASE):
 
     def __init__(self, nwalkers=1000, nstep=None, nelec=1, ndim=3,
-             step_size = None, domain = None,
-             move='all'):
+                 step_size = None, domain = None,
+                 move='all'):
 
-        ''' HMC SAMPLER
+        """ HMC SAMPLER
         Args:
             f (func) : function to sample
             nstep (int) : number of mc step
             nwalkers (int) : number of walkers
             eps (float) : size of the mc step
             boudnary (float) : boudnary of the space
-        '''
+        """
 
         SAMPLER_BASE.__init__(self,nwalkers,nstep,nelec,ndim,step_size,domain,move)
         self.nwalkers = nwalkers

@@ -1,9 +1,9 @@
-import numpy as np 
+import numpy as np
 from pyCHAMP.sampler.sampler_base import SAMPLER_BASE
-from pyCHAMP.sampler.walkers import WALKERS
-from tqdm import tqdm 
+from tqdm import tqdm
 import torch
 import time
+
 
 class METROPOLIS(SAMPLER_BASE):
 
@@ -11,23 +11,23 @@ class METROPOLIS(SAMPLER_BASE):
                  step_size = 3, domain = {'min':-2,'max':2},
                  move='all'):
 
-        ''' METROPOLIS HASTING SAMPLER
+        """ METROPOLIS HASTING SAMPLER
         Args:
             f (func) : function to sample
             nstep (int) : number of mc step
             nwalkers (int) : number of walkers
             eps (float) : size of the mc step
             boudnary (float) : boudnary of the space
-        '''
+        """
 
         SAMPLER_BASE.__init__(self,nwalkers,nstep,nelec,ndim,step_size,domain,move)
 
     def generate(self,pdf):
 
-        ''' perform a MC sampling of the function f
+        """ perform a MC sampling of the function f
         Returns:
             X (list) : position of the walkers
-        '''
+        """
 
         self.walkers.initialize(method='uniform')
         fx = pdf(self.walkers.pos)
@@ -69,23 +69,23 @@ class METROPOLIS_TORCH(SAMPLER_BASE):
                  step_size = 3, domain = {'min':-2,'max':2},
                  move='all'):
 
-        ''' METROPOLIS HASTING SAMPLER
+        """ METROPOLIS HASTING SAMPLER
         Args:
             f (func) : function to sample
             nstep (int) : number of mc step
             nwalkers (int) : number of walkers
             eps (float) : size of the mc step
             boudnary (float) : boudnary of the space
-        '''
+        """
 
         SAMPLER_BASE.__init__(self,nwalkers,nstep,nelec,ndim,step_size,domain,move)
 
     def generate(self,pdf):
 
-        ''' perform a MC sampling of the function f
+        """ perform a MC sampling of the function f
         Returns:
             X (list) : position of the walkers
-        '''
+        """
 
         self.walkers.initialize(method='uniform')
         fx = pdf(torch.tensor(self.walkers.pos).float())

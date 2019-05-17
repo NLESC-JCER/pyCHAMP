@@ -39,7 +39,7 @@ setup(
     ],
     test_suite='tests',
     install_requires=['autograd', 'cython', 'numpy', 'pyhmc', 'pyyaml>=5.1',
-                      'schema', 'scipy'],
+                      'schema', 'scipy', 'tqdm'],
     setup_requires=[
         # dependency for `python setup.py test`
         'pytest-runner',
