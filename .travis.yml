@@ -25,7 +25,7 @@ install:
 
 # command to run tests
 script:
-  - pytest --cov=pyCHAMP  tests --cov-report xml:coverage.xml
+  - pytest --cov=pyCHAMP tests --cov-report xml:coverage.xml
   - mv coverage.xml ../
   - mv .coverage ../
   - cd ../

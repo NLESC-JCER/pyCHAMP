@@ -20,7 +20,7 @@ setup(
     description="CHAMP QMC code in Python",
     long_description=readme + '\n\n',
     long_description_content_type='text/markdown',
-    author="Nicolas Renaud",
+    author=["Nicolas Renaud", "Felipe Zapata"],
     author_email='n.renaud@esciencecenter.nl',
     url='https://github.com/NLESC-JCER/pyCHAMP',
     packages=find_packages(),
@@ -38,7 +38,8 @@ setup(
         'Programming Language :: Python :: 3.7',
     ],
     test_suite='tests',
-    install_requires=['autograd', 'cython', 'numpy', 'pyhmc', 'schema', 'scipy'],
+    install_requires=['autograd', 'cython', 'numpy', 'pyhmc', 'pyyaml>=5.1',
+                      'schema', 'scipy'],
     setup_requires=[
         # dependency for `python setup.py test`
         'pytest-runner',
