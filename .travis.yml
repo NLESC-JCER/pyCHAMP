@@ -12,19 +12,9 @@ before_install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no --set auto_update_conda False
-  - conda update -q conda
-
-  # Useful for debugging any issues with conda
-  - conda info -a
 
   # dependencies
-  - conda install -c conda-forge pymc3
-
-  # pip
-  - pip install -q --upgrade pip
-
-  # pyhmc
-  - pip install pyhmc
+  - conda install cython
 
   # codacy coverage
   - pip install -q coverage codacy-coverage coveralls

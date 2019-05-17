@@ -40,7 +40,7 @@ setup(
         'Programming Language :: Python :: 3.7',
     ],
     test_suite='tests',
-    install_requires=['autograd', 'cython', 'numpy', 'scipy'],
+    install_requires=['autograd', 'cython', 'numpy', 'pyhmc', 'schema', 'scipy'],
     setup_requires=[
         # dependency for `python setup.py test`
         'pytest-runner',
