@@ -36,20 +36,14 @@ setup(
         'Natural Language :: English',
         'intended audience :: science/research',
         'Programming Language :: Python :: 3.7',
+        'Topic :: Scientific/Engineering :: Chemistry'
     ],
     test_suite='tests',
     install_requires=['autograd', 'cython', 'matplotlib', 'numpy', 'pyhmc', 'pyyaml>=5.1',
                       'schema', 'scipy', 'tqdm'],
-    setup_requires=[
-        # dependency for `python setup.py test`
-        'pytest-runner',
-        # dependencies for `python setup.py build_sphinx`
-        'sphinx',
-        'sphinx_rtd_theme',
-        'recommonmark'
-    ],
     extras_require={
-        'dev':  ['prospector[with_pyroma]', 'yapf', 'isort'],
-        'test': ['coverage', 'pytest', 'pytest-cov', 'pycodestyle'],
+        'dev': ['prospector[with_pyroma]', 'yapf', 'isort'],
+        'doc': ['recommonmark', 'sphinx', 'sphinx_rtd_theme'],
+        'test': ['coverage', 'pycodestyle', 'pytest', 'pytest-cov', 'pytest-runner'],
     }
 )
