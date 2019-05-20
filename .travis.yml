@@ -15,6 +15,7 @@ before_install:
 
   # dependencies
   - conda install cython numpy
+  - conda install pytorch-cpu torchvision-cpu -c pytorch
 
   # codacy coverage
   - pip install -q coverage codacy-coverage coveralls
