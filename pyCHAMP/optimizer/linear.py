@@ -54,10 +54,10 @@ class LINEAR(OPT_BASE):
 
     def applyHtoBasis(self, param, pos):
 
-        K = self.applyKtoBasis(param, pos)
-        V = (self.wf.nuclear_potential(pos) +
+        k = self.applyKtoBasis(param, pos)
+        v = (self.wf.nuclear_potential(pos) +
              self.wf.electronic_potential(pos)) * self.wf.values(param, pos)
-        return K + V
+        return k + v
 
     def applyKtoBasis(self, param, pos):
         """Compute the action of the kinetic operator on the we points.

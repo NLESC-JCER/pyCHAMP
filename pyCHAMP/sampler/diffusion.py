@@ -85,10 +85,10 @@ class DIFFUSION(SAMPLER_BASE):
     def green(self, rn, r, E):
         en = self.energy_func(rn)
         e = self.energy_func(r)
-        Gb = np.exp(-0.5*(en+e-2*E)*self.step_size)
-        Gd = (2*np.pi*self.step_size)**(-3/2*self.nwalkers) * np.exp(
+        gb = np.exp(-0.5*(en+e-2*E)*self.step_size)
+        gd = (2*np.pi*self.step_size)**(-3/2*self.nwalkers) * np.exp(
             -0.5 * (r-rn-0.5*self.step_size*self.drift_func(rn)/self.step_size))
-        return Gb*Gd
+        return gb * gd
 
     def _accept(self, df):
         ones = np.ones((self.walkers.nwalkers, 1))

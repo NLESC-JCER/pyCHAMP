@@ -44,7 +44,7 @@ class WF(object):
         raise NotImplementedError()
 
     def jacobian_opt(self, param, pos):
-        """Gradient of the wf wrt the variational parameters 
+        """Gradient of the wf wrt the variational parameters
         at current positions. """
         jac = np.array([egrad(self.values, 0)(
             param, p.reshape(1, -1))[0].tolist() for p in pos])
@@ -204,7 +204,7 @@ class WF(object):
         return egrad(self.energy, 0)(param, pos)
 
     def energy_gradient(self, param, pos):
-        """Gradient of the total energy wrt the variational parameters 
+        """Gradient of the total energy wrt the variational parameters
         at the current sampling points."""
 
         grad_psi = self.jacobian_opt(param, pos)

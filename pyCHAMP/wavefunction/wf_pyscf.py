@@ -20,7 +20,7 @@ class PYSCF_WF(WF):
 
         self.config_ground_state = self.rhf.mo_occ.astype('bool')
         self.index_homo = np.max(np.argwhere(
-            self.config_ground_state == True).flatten())
+                self.config_ground_state).flatten())
 
         self.ndim = 3
         self.nelec = np.sum(self.mol.nelec)

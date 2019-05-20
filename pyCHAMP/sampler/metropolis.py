@@ -36,17 +36,17 @@ class METROPOLIS(SAMPLER_BASE):
         for istep in (range(self.nstep)):
 
             # new positions
-            Xn = self.walkers.move(self.step_size, method=self.move)
+            xn = self.walkers.move(self.step_size, method=self.move)
 
             # new function
-            fxn = pdf(Xn)
+            fxn = pdf(xn)
             df = fxn/(fx)
 
             # accept the moves
             index = self._accept(df)
 
             # update position/function values
-            self.walkers.pos[index, :] = Xn[index, :]
+            self.walkers.pos[index, :] = xn[index, :]
             fx[index] = fxn[index]
             fx[fx == 0] = 1E-6
 
