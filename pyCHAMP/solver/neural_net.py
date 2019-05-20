@@ -152,8 +152,8 @@ class NN4PYSCF(SolverBase):
 
 if __name__ == "__main__":
 
-    from pyCHAMP.solver.vmc import VMC
-    from pyCHAMP.wavefunction.neural_wf_base import NeuralWF, WaveNet
+    # from pyCHAMP.solver.vmc import VMC
+    # from pyCHAMP.wavefunction.neural_wf_base import NeuralWF, WaveNet
     from pyCHAMP.wavefunction.neural_pyscf_wf_base import NEURAL_PYSCF_WF
     from pyCHAMP.sampler.metropolis import Metropolis_TORCH as Metropolis
 
