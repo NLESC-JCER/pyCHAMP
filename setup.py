@@ -38,7 +38,7 @@ setup(
         'Programming Language :: Python :: 3.7',
     ],
     test_suite='tests',
-    install_requires=['autograd', 'cython', 'numpy', 'pyhmc', 'pyyaml>=5.1',
+    install_requires=['autograd', 'cython', 'matplotlib', 'numpy', 'pyhmc', 'pyyaml>=5.1',
                       'schema', 'scipy', 'tqdm'],
     setup_requires=[
         # dependency for `python setup.py test`
