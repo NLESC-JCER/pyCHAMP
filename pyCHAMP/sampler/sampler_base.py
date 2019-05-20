@@ -2,7 +2,7 @@
 from pyCHAMP.sampler.walkers import WALKERS
 
 
-class SAMPLER_BASE:
+class SamplerBase:
 
     def __init__(self, nwalkers=1000, nstep=1000, nelec=1, ndim=3,
                  step_size=3, domain={'min': -2, 'max': 2},

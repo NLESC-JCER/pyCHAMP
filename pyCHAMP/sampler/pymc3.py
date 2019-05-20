@@ -1,9 +1,9 @@
 import numpy as np
 import pymc3 as pm
-from pyCHAMP.sampler.sampler_base import SAMPLER_BASE
+from pyCHAMP.sampler.sampler_base import SamplerBase
 
 
-class PYMC3(SAMPLER_BASE):
+class PYMC3(SamplerBase):
 
     def __init__(self, nwalkers=1000, ndim=3):
         """ Wrapper around the pymc3 samplers
@@ -14,8 +14,8 @@ class PYMC3(SAMPLER_BASE):
             eps (float) : size of the mc step
             boudnary (float) : boudnary of the space
         """
-        SAMPLER_BASE.__init__(self, nwalkers, None, None,
-                              None, None, None, None)
+        SamplerBase.__init__(self, nwalkers, None, None,
+                             None, None, None, None)
         self.ndim = ndim
 
     def generate(self, pdf):

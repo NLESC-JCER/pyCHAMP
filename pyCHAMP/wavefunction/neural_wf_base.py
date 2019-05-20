@@ -8,7 +8,7 @@ from torch import nn
 import torch.nn.functional as F
 
 
-class NEURAL_WF:
+class NeuralWF:
 
     def __init__(self, model, nelec, ndim):
 

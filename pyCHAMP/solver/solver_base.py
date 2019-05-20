@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-class SOLVER_BASE:
+class SolverBase:
 
     def __init__(self, wf=None, sampler=None, optimizer=None):
 

@@ -1,10 +1,10 @@
 import autograd.numpy as np
-from pyCHAMP.sampler.sampler_base import SAMPLER_BASE
+from pyCHAMP.sampler.sampler_base import SamplerBase
 from autograd import elementwise_grad as egrad
 from pyhmc import hmc
 
 
-class HAMILTONIAN(SAMPLER_BASE):
+class HAMILTONIAN(SamplerBase):
 
     def __init__(self, nwalkers=1000, nstep=None, nelec=1, ndim=3,
                  step_size=None, domain=None,
@@ -18,7 +18,7 @@ class HAMILTONIAN(SAMPLER_BASE):
             boudnary (float) : boudnary of the space
         """
 
-        SAMPLER_BASE.__init__(self, nwalkers, nstep, nelec,
+        SamplerBase.__init__(self, nwalkers, nstep, nelec,
                               ndim, step_size, domain, move)
         self.nwalkers = nwalkers
 

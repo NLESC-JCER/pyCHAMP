@@ -3,7 +3,7 @@ from torch.autograd import Variable
 from torch import nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
-from pyCHAMP.solver.solver_base import SOLVER_BASE
+from pyCHAMP.solver.solver_base import SolverBase
 
 import matplotlib.pyplot as plt
 
@@ -41,11 +41,11 @@ class QMCLoss(nn.Module):
         return loss
 
 
-class NN(SOLVER_BASE):
+class NN(SolverBase):
 
     def __init__(self, wf=None, sampler=None, optimizer=None):
 
-        SOLVER_BASE.__init__(self, wf, sampler, None)
+        SolverBase.__init__(self, wf, sampler, None)
         self.opt = optim.SGD(self.wf.model.parameters(),
                              lr=0.005, momentum=0.9, weight_decay=0.001)
         self.batchsize = 32
@@ -90,11 +90,11 @@ class NN(SOLVER_BASE):
         plt.show()
 
 
-class NN4PYSCF(SOLVER_BASE):
+class NN4PYSCF(SolverBase):
 
     def __init__(self, wf=None, sampler=None, optimizer=None):
 
-        SOLVER_BASE.__init__(self, wf, sampler, None)
+        SolverBase.__init__(self, wf, sampler, None)
         self.opt = optim.SGD(self.wf.parameters(), lr=0.005,
                              momentum=0.9, weight_decay=0.001)
         self.batchsize = 32
@@ -153,14 +153,14 @@ class NN4PYSCF(SOLVER_BASE):
 if __name__ == "__main__":
 
     from pyCHAMP.solver.vmc import VMC
-    from pyCHAMP.wavefunction.neural_wf_base import NEURAL_WF, WaveNet
+    from pyCHAMP.wavefunction.neural_wf_base import NeuralWF, WaveNet
     from pyCHAMP.wavefunction.neural_pyscf_wf_base import NEURAL_PYSCF_WF
-    from pyCHAMP.sampler.metropolis import METROPOLIS_TORCH as METROPOLIS
+    from pyCHAMP.sampler.metropolis import Metropolis_TORCH as Metropolis
 
-    # class HarmOsc3D(NEURAL_WF):
+    # class HarmOsc3D(NeuralWF):
 
     #     def __init__(self,model,nelec,ndim):
-    #         NEURAL_WF.__init__(self, model, nelec, ndim)
+    #         NeuralWF.__init__(self, model, nelec, ndim)
 
     #     def nuclear_potential(self,pos):
     #         return torch.sum(0.5*pos**2,1)
@@ -173,7 +173,7 @@ if __name__ == "__main__":
                          basis='dzp',
                          active_space=(2, 2))
 
-    sampler = METROPOLIS(nwalkers=64, nstep=10,
+    sampler = Metropolis(nwalkers=64, nstep=10,
                          step_size=3, nelec=wf.nelec,
                          ndim=3, domain={'min': -5, 'max': 5})
 

@@ -1,8 +1,8 @@
 import numpy as np
-from pyCHAMP.sampler.sampler_base import SAMPLER_BASE
+from pyCHAMP.sampler.sampler_base import SamplerBase
 
 
-class DIFFUSION(SAMPLER_BASE):
+class DIFFUSION(SamplerBase):
 
     def __init__(self, nwalkers=1000, nstep=1000, nelec=1, ndim=3,
                  step_size=0.1, domain={'min': -2, 'max': 2},
@@ -16,8 +16,8 @@ class DIFFUSION(SAMPLER_BASE):
             boudnary (float) : boudnary of the space
         """
 
-        SAMPLER_BASE.__init__(self, nwalkers, nstep, nelec,
-                              ndim, step_size, domain, move)
+        SamplerBase.__init__(self, nwalkers, nstep, nelec,
+                             ndim, step_size, domain, move)
 
     def set_wf(self, func):
         self.wf = func

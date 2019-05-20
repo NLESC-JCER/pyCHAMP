@@ -1,11 +1,11 @@
 from functools import partial
-from pyCHAMP.solver.solver_base import SOLVER_BASE
+from pyCHAMP.solver.solver_base import SolverBase
 
 
-class VMC(SOLVER_BASE):
+class VMC(SolverBase):
 
     def __init__(self, wf=None, sampler=None, optimizer=None):
-        SOLVER_BASE.__init__(self, wf, sampler, optimizer)
+        SolverBase.__init__(self, wf, sampler, optimizer)
 
     def sample(self, param):
         partial_pdf = partial(self.wf.pdf, param)
