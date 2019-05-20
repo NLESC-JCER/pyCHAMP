@@ -1,8 +1,8 @@
-from pyCHAMP.optimizer.opt_base import OPT_BASE
+from pyCHAMP.optimizer.opt_base import OptBase
 from pyswarm import pso
 
 
-class SWARM(OPT_BASE):
+class SWARM(OptBase):
 
     def __init__(self, method=None, maxiter=100, tol=1E-6):
 

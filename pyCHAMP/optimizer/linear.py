@@ -1,9 +1,9 @@
 import numpy as np
-from pyCHAMP.optimizer.opt_base import OPT_BASE
+from pyCHAMP.optimizer.opt_base import OptBase
 import scipy.linalg as spla
 
 
-class LINEAR(OPT_BASE):
+class Linear(OptBase):
 
     def __init__(self, wf, maxiter=100, init_param=None, tol=1E-6):
 

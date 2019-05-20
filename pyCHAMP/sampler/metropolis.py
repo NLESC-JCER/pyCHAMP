@@ -20,7 +20,7 @@ class Metropolis(SamplerBase):
         """
 
         SamplerBase.__init__(self, nwalkers, nstep, nelec,
-                              ndim, step_size, domain, move)
+                             ndim, step_size, domain, move)
 
     def generate(self, pdf):
         """ perform a MC sampling of the function f
@@ -90,19 +90,19 @@ class MetropolisTorch(SamplerBase):
         for istep in tqdm(range(self.nstep)):
 
             # new positions
-            Xn = torch.tensor(self.walkers.move(
+            xn = torch.tensor(self.walkers.move(
                 self.step_size, method=self.move)).float()
 
             # new function
             t0 = time.time()
-            fxn = pdf(Xn)
+            fxn = pdf(xn)
             df = (fxn/(fx)).double()
 
             # accept the moves
             index = self._accept(df)
 
             # update position/function values
-            self.walkers.pos[index, :] = Xn[index, :]
+            self.walkers.pos[index, :] = xn[index, :]
             fx[index] = fxn[index]
             fx[fx == 0] = 1E-6
 

@@ -1,8 +1,8 @@
-from pyCHAMP.optimizer.opt_base import OPT_BASE
+from pyCHAMP.optimizer.opt_base import OptBase
 from scipy.optimize import minimize
 
 
-class MINIMIZE(OPT_BASE):
+class Minimize(OptBase):
 
     def __init__(self, method=None, maxiter=100, tol=1E-6):
 

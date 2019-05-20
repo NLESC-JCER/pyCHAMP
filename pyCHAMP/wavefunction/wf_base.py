@@ -1,10 +1,9 @@
 import autograd.numpy as np
 from autograd import elementwise_grad as egrad
-from autograd import hessian, jacobian
-from functools import partial
+from autograd import hessian
 
 
-class WF(object):
+class WF:
 
     def __init__(self, nelec, ndim):
 

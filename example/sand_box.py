@@ -3,9 +3,9 @@ import autograd.numpy as np
 from pyCHAMP.wavefunction.wf_base import WF
 from pyCHAMP.wavefunction.wf_pyscf import PYSCF_WF
 
-from pyCHAMP.optimizer.minimize import MINIMIZE
-from pyCHAMP.optimizer.linear import LINEAR
-from pyCHAMP.sampler.metropolis import Metropolis
+from pyCHAMP.optimizer.minimize import Minimize
+from pyCHAMP.optimizer.linear import Linear
+# from pyCHAMP.sampler.metropolis import Metropolis
 from pyCHAMP.sampler.pymc3 import PYMC3
 
 from pyCHAMP.solver.vmc import VMC
@@ -85,8 +85,8 @@ if __name__ == "__main__":
     #	                  nelec=wf.nelec, ndim=wf.ndim, domain = {'min':-5,'max':5})
     sampler = PYMC3(nwalkers=100, ndim=wf.nelec*wf.ndim)
 
-    optimizer = MINIMIZE(method='bfgs', maxiter=25, tol=1E-4)
-    optlin = LINEAR(wf=wf, maxiter=25, tol=1E-6)
+    optimizer = Minimize(method='bfgs', maxiter=25, tol=1E-4)
+    optlin = Linear(wf=wf, maxiter=25, tol=1E-6)
 
     # VMS solver
     vmc = VMC(wf=wf, sampler=sampler, optimizer=None)
@@ -107,7 +107,7 @@ if __name__ == "__main__":
     # vmc.plot_history()
 
     # metro = Metropolis(nwalkers=1000, nstep=1000, step_size = 3, nelec=1, ndim=1, domain = {'min':-2,'max':2})
-    # optimizer = MINIMIZE(method='bfgs', maxiter=25, tol=1E-4)
+    # optimizer = Minimize(method='bfgs', maxiter=25, tol=1E-4)
 
     # vmc = VMC(wf=wf, sampler=metro, optimizer=optimizer)
     # pos = vmc.sample(opt_param)
@@ -120,7 +120,7 @@ if __name__ == "__main__":
     # dmc.plot_density(pos)
 
     # sampler = Metropolis(nwalkers=1000, nstep=1000, step_size = 3, nelec=1, ndim=1, domain = {'min':-2,'max':2})
-    # optimizer = MINIMIZE(method='bfgs', maxiter=25, tol=1E-4)
+    # optimizer = Minimize(method='bfgs', maxiter=25, tol=1E-4)
     # vmc = VMC(wf=wf, sampler=sampler, optimizer=optimizer)
     # x0 = [1.25]
     # vmc.optimize(x0)

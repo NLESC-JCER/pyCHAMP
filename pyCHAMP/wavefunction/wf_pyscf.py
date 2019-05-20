@@ -1,9 +1,9 @@
 import autograd.numpy as np
 from pyCHAMP.wavefunction.wf_base import WF
 
-from autograd import elementwise_grad as egrad
-from autograd import hessian, jacobian
-from functools import partial
+# from autograd import elementwise_grad as egrad
+# from autograd import hessian, jacobian
+# from functools import partial
 
 from pyscf import scf, gto
 
@@ -20,7 +20,8 @@ class PYSCF_WF(WF):
 
         self.config_ground_state = self.rhf.mo_occ.astype('bool')
         self.index_homo = np.max(
-                np.argwhere(self.config_ground_state).flatten())
+                np.argwhere(
+                        self.config_ground_state).flatten())
 
         self.ndim = 3
         self.nelec = np.sum(self.mol.nelec)

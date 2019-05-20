@@ -1,11 +1,11 @@
 import autograd.numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+# import matplotlib.pyplot as plt
+# from mpl_toolkits.mplot3d import Axes3D
 
 from pyCHAMP.wavefunction.wf_base import WF
 from pyCHAMP.sampler.metropolis import Metropolis
-from pyCHAMP.optimizer.minimize import MINIMIZE
-from pyCHAMP.sampler.pymc3 import PYMC3
+from pyCHAMP.optimizer.minimize import Minimize
+# from pyCHAMP.sampler.pymc3 import PYMC3
 
 from pyCHAMP.solver.vmc import VMC
 
@@ -43,8 +43,8 @@ if __name__ == "__main__":
     wf = HarmOsc3D(nelec=1, ndim=3)
     sampler = Metropolis(nwalkers=1000, nstep=1000, step_size=3,
                          nelec=1, ndim=3, domain={'min': -2, 'max': 2})
-    #sampler = PYMC3(nwalkers=100,ndim=3)
-    optimizer = MINIMIZE(method='bfgs', maxiter=20, tol=1E-4)
+    # sampler = PYMC3(nwalkers=100,ndim=3)
+    optimizer = Minimize(method='bfgs', maxiter=20, tol=1E-4)
 
     # VMC solver
     vmc = VMC(wf=wf, sampler=sampler, optimizer=optimizer)

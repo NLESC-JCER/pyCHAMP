@@ -1,9 +1,9 @@
 import autograd.numpy as np
 
 from pyCHAMP.wavefunction.wf_base import WF
-from pyCHAMP.optimizer.minimize import MINIMIZE
+from pyCHAMP.optimizer.minimize import Minimize
 from pyCHAMP.sampler.metropolis import Metropolis
-from pyCHAMP.sampler.hamiltonian import HAMILTONIAN
+from pyCHAMP.sampler.hamiltonian import Hamiltonian
 from pyCHAMP.solver.vmc import VMC
 
 
@@ -43,9 +43,9 @@ if __name__ == "__main__":
     wf = Hydrogen(nelec=1, ndim=3)
     sampler = Metropolis(nwalkers=1000, nstep=1000, step_size=3,
                          nelec=1, ndim=3, domain={'min': -5, 'max': 5})
-    sampler = HAMILTONIAN(nwalkers=1000, nstep=1000,
+    sampler = Hamiltonian(nwalkers=1000, nstep=1000,
                           step_size=3, nelec=1, ndim=3)
-    optimizer = MINIMIZE(method='bfgs', maxiter=25, tol=1E-4)
+    optimizer = Minimize(method='bfgs', maxiter=25, tol=1E-4)
 
     # VMS solver
     vmc = VMC(wf=wf, sampler=sampler, optimizer=optimizer)

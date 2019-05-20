@@ -6,7 +6,7 @@
 import autograd.numpy as np
 
 from pyCHAMP.wavefunction.wf_base import WF
-from pyCHAMP.optimizer.minimize import MINIMIZE
+from pyCHAMP.optimizer.minimize import Minimize
 from pyCHAMP.sampler.metropolis import Metropolis
 from pyCHAMP.solver.vmc import VMC
 import unittest
@@ -43,7 +43,7 @@ class TestHarmonicOscillator1D(unittest.TestCase):
         self.wf = HarmOsc1D(nelec=1, ndim=1)
         self.sampler = Metropolis(
             nwalkers=1000, nstep=1000, step_size=3, nelec=1, ndim=1, domain={'min': -2, 'max': 2})
-        self.optimizer = MINIMIZE(method='bfgs', maxiter=25, tol=1E-4)
+        self.optimizer = Minimize(method='bfgs', maxiter=25, tol=1E-4)
 
     def test_vmc_single_point(self):
         vmc = VMC(wf=self.wf, sampler=self.sampler, optimizer=None)

@@ -1,13 +1,13 @@
 import autograd.numpy as np
 
 from pyCHAMP.wavefunction.wf_base import WF
-from pyCHAMP.optimizer.minimize import MINIMIZE
+# from pyCHAMP.optimizer.minimize import Minimize
 from pyCHAMP.sampler.metropolis import Metropolis
-from pyCHAMP.sampler.pymc3 import PYMC3
+# from pyCHAMP.sampler.pymc3 import PYMC3
 from pyCHAMP.solver.vmc import VMC
 
 
-class ORBITAL_1S:
+class Orbital1S:
 
     def __init__(self, pos, beta):
         self.pos = pos
@@ -27,7 +27,7 @@ class H:
         self.basis = 'minimal'
         self.pos = np.array(pos).reshape(-1, 1)
         self.Z = 1
-        self.orbs = [ORBITAL_1S(self.pos, 1.)]
+        self.orbs = [Orbital1S(self.pos, 1.)]
 
 
 class H2(WF):
@@ -106,9 +106,9 @@ if __name__ == "__main__":
     wf = H2(nelec=2, ndim=3)
     sampler = Metropolis(nwalkers=1000, nstep=1000, step_size=3,
                          nelec=2, ndim=3, domain={'min': -5, 'max': 5})
-    #sampler = PYMC3(nwalkers=100,ndim=6)
-    #sampler = HAMILTONIAN(nwalkers=1000, nstep=1000, step_size = 3, nelec=1, ndim=3)
-    #optimizer = MINIMIZE(method='bfgs', maxiter=25, tol=1E-4)
+    # sampler = PYMC3(nwalkers=100,ndim=6)
+    # sampler = Hamiltonian(nwalkers=1000, nstep=1000, step_size = 3, nelec=1, ndim=3)
+    # optimizer = Minimize(method='bfgs', maxiter=25, tol=1E-4)
 
     # VMS solver
     vmc = VMC(wf=wf, sampler=sampler, optimizer=None)

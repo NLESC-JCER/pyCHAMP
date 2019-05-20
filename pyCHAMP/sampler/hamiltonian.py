@@ -4,7 +4,7 @@ from autograd import elementwise_grad as egrad
 from pyhmc import hmc
 
 
-class HAMILTONIAN(SamplerBase):
+class Hamiltonian(SamplerBase):
 
     def __init__(self, nwalkers=1000, nstep=None, nelec=1, ndim=3,
                  step_size=None, domain=None,
@@ -19,7 +19,7 @@ class HAMILTONIAN(SamplerBase):
         """
 
         SamplerBase.__init__(self, nwalkers, nstep, nelec,
-                              ndim, step_size, domain, move)
+                             ndim, step_size, domain, move)
         self.nwalkers = nwalkers
 
     def generate(self, func):

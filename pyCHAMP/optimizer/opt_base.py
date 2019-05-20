@@ -1,5 +1,5 @@
 
-class OPT_BASE:
+class OptBase:
 
     def __init__(self):
         pass
