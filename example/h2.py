@@ -40,14 +40,14 @@ class H2(WF):
         self.natom = len(self.atoms)
 
     def values(self, parameters, pos):
-        ''' Compute the value of the wave function.
+        """ Compute the value of the wave function.
 
         Args:
                 parameters : parameters of th wf
                 x: position of the electron
 
         Returns: values of psi
-        '''
+        """
 
         beta = parameters[0]
         pos = pos.T

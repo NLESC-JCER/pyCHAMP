@@ -17,14 +17,14 @@ class HarmOsc1D(WF):
         WF.__init__(self, nelec, ndim)
 
     def values(self, parameters, pos):
-        ''' Compute the value of the wave function.
+        """ Compute the value of the wave function.
 
         Args:
             parameters : parameters of th wf
             x: position of the electron
 
         Returns: values of psi
-        '''
+        """
 
         beta = parameters[0]
         wf = np.exp(-beta*pos**2).reshape(-1, 1)
@@ -49,14 +49,14 @@ class HarmOsc2D(WF):
         WF.__init__(self, nelec, ndim)
 
     def values(self, parameters, pos):
-        ''' Compute the value of the wave function.
+        """ Compute the value of the wave function.
 
         Args:
             parameters : parameters of th wf
             x: position of the electron
 
         Returns: values of psi
-        '''
+        """
 
         b0, b1 = 5, 2
         pos = pos.T
@@ -79,10 +79,10 @@ class HarmOsc2D(WF):
 
 if __name__ == "__main__":
 
-    #wf = HarmOsc2D(nelec=1, ndim=2)
+    # wf = HarmOsc2D(nelec=1, ndim=2)
     wf = PYSCF_WF(atom='O 0 0 0; H 0 0 1; H 0 1 0', basis='dzp')
     # sampler = Metropolis(nwalkers=100, nstep=100, step_size = 3,
-    #	                  nelec=wf.nelec, ndim=wf.ndim, domain = {'min':-5,'max':5})
+    # 	                 nelec=wf.nelec, ndim=wf.ndim, domain = {'min':-5,'max':5})
     sampler = PYMC3(nwalkers=100, ndim=wf.nelec*wf.ndim)
 
     optimizer = Minimize(method='bfgs', maxiter=25, tol=1E-4)
@@ -93,7 +93,7 @@ if __name__ == "__main__":
     pos = vmc.sample([])
     vmc.plot_density(pos)
     e = vmc.wf.energy([], pos)
-    
+
     # single point
     # opt_param = [0.5]
     # pos,e,s = vmc.single_point(opt_param)
