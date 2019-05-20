@@ -3,7 +3,7 @@ import autograd.numpy as np
 from pyCHAMP.wavefunction.wf_base import WF
 
 from pyCHAMP.optimizer.minimize import Minimize
-# from pyCHAMP.optimizer.swarm import SWARM
+# from pyCHAMP.optimizer.swarm import Swarm
 
 from pyCHAMP.sampler.metropolis import Metropolis
 # from pyCHAMP.sampler.pymc3 import PYMC3
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     # sampler = PYMC3(nwalkers=1000,ndim=1)
 
     optimizer = Minimize(method='bfgs', maxiter=25, tol=1E-4)
-    # optimizer = SWARM( maxiter=25)
+    # optimizer = Swarm( maxiter=25)
 
     # VMC solver
     vmc = VMC(wf=wf, sampler=sampler, optimizer=optimizer)

@@ -2,7 +2,7 @@ from pyCHAMP.optimizer.opt_base import OptBase
 from pyswarm import pso
 
 
-class SWARM(OptBase):
+class Swarm(OptBase):
 
     def __init__(self, method=None, maxiter=100, tol=1E-6):
 

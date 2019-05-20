@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class WALKERS:
+class Walkers:
 
     def __init__(self, nwalkers, nelec, ndim, domain):
 
@@ -45,7 +45,8 @@ class WALKERS:
         return new_pos
 
     def _move_all(self, step_size):
-        return self.pos + self.status * self._random(step_size, (self.nwalkers, self.nelec * self.ndim))
+        return self.pos + self.status * self._random(
+                step_size, (self.nwalkers, self.nelec * self.ndim))
 
     def _move_one(self, step_size):
 

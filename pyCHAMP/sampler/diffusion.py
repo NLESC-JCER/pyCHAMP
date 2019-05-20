@@ -2,7 +2,7 @@ import numpy as np
 from pyCHAMP.sampler.sampler_base import SamplerBase
 
 
-class DIFFUSION(SamplerBase):
+class Diffusion(SamplerBase):
 
     def __init__(self, nwalkers=1000, nstep=1000, nelec=1, ndim=3,
                  step_size=0.1, domain={'min': -2, 'max': 2},

@@ -59,7 +59,7 @@ if __name__ == "__main__":
     # vmc = VMC(wf=wf, sampler=metro, optimizer=optimizer)
     # pos = vmc.sample(opt_param)
 
-    # diff = DIFFUSION(nwalkers=1000, nstep=1, step_size = 0.5, nelec=1, ndim=1, domain = {'min':-2,'max':2})
+    # diff = Diffusion(nwalkers=1000, nstep=1, step_size = 0.5, nelec=1, ndim=1, domain = {'min':-2,'max':2})
     # diff.set_initial_guess(pos)
 
     # dmc = DMC(wf=wf, sampler=diff, optimizer=None)

@@ -3,11 +3,11 @@ import autograd.numpy as np
 from pyCHAMP.wavefunction.wf_base import WF
 
 from pyCHAMP.optimizer.minimize import Minimize
-#from pyCHAMP.optimizer.swarm import SWARM
+# from pyCHAMP.optimizer.swarm import Swarm
 
 from pyCHAMP.sampler.metropolis import Metropolis
 from pyCHAMP.sampler.pymc3 import PYMC3
-#from pyCHAMP.sampler.hamiltonian import Hamiltonian
+# from pyCHAMP.sampler.hamiltonian import Hamiltonian
 from pyCHAMP.solver.vmc import VMC
 
 
@@ -37,10 +37,10 @@ if __name__ == "__main__":
                          nelec=1, ndim=1, domain={'min': -2, 'max': 2})
     sampler = PYMC3(nwalkers=100, ndim=2)
 
-    #sampler = Hamiltonian(nwalkers=1000, nstep=1000, step_size = 3, nelec=1, ndim=1)
+    # sampler = Hamiltonian(nwalkers=1000, nstep=1000, step_size = 3, nelec=1, ndim=1)
     optimizer = Minimize(method='bfgs', maxiter=25, tol=1E-4)
 
-    #optimizer = SWARM( maxiter=25)
+    # optimizer = Swarm( maxiter=25)
 
     # VMC solver
     vmc = VMC(wf=wf, sampler=sampler, optimizer=optimizer)
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # vmc = VMC(wf=wf, sampler=metro, optimizer=optimizer)
     # pos = vmc.sample(opt_param)
 
-    # diff = DIFFUSION(nwalkers=1000, nstep=1, step_size = 0.5, nelec=1, ndim=1, domain = {'min':-2,'max':2})
+    # diff = Diffusion(nwalkers=1000, nstep=1, step_size = 0.5, nelec=1, ndim=1, domain = {'min':-2,'max':2})
     # diff.set_initial_guess(pos)
 
     # dmc = DMC(wf=wf, sampler=diff, optimizer=None)
