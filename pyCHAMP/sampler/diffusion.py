@@ -78,14 +78,16 @@ class DIFFUSION(SAMPLER_BASE):
         return self.walkers.pos
 
     def weight(self, new_pos, new_wf, old_pos, old_wf, E):
-        return (new_wf**2 * self.green(new_pos, old_pos, E)) / ((old_wf**2 * self.green(old_pos, new_pos, E)) + 1E-6)
+        return (
+            new_wf**2 * self.green(new_pos, old_pos, E)) / (
+                (old_wf**2 * self.green(old_pos, new_pos, E)) + 1E-6)
 
     def green(self, rn, r, E):
         en = self.energy_func(rn)
         e = self.energy_func(r)
         Gb = np.exp(-0.5*(en+e-2*E)*self.step_size)
-        Gd = (2*np.pi*self.step_size)**(-3/2*self.nwalkers) * np.exp(-0.5 *
-                                                                     (r-rn-0.5*self.step_size*self.drift_func(rn)/self.step_size))
+        Gd = (2*np.pi*self.step_size)**(-3/2*self.nwalkers) * np.exp(
+            -0.5 * (r-rn-0.5*self.step_size*self.drift_func(rn)/self.step_size))
         return Gb*Gd
 
     def _accept(self, df):

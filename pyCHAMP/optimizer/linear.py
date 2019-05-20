@@ -60,12 +60,12 @@ class LINEAR(OPT_BASE):
         return K + V
 
     def applyKtoBasis(self, param, pos):
-        '''Compute the action of the kinetic operator on the we points.
+        """Compute the action of the kinetic operator on the we points.
         Args :
             pos : position of the electrons
             metod (string) : mehod to compute the derivatives
         Returns : value of K * psi
-        '''
+        """
 
         ndim = pos.shape[1]
         KPsi = np.zeros((pos.shape[0], len(param)+1))

@@ -7,9 +7,8 @@ from pyhmc import hmc
 class HAMILTONIAN(SAMPLER_BASE):
 
     def __init__(self, nwalkers=1000, nstep=None, nelec=1, ndim=3,
-                 step_size = None, domain = None,
+                 step_size=None, domain=None,
                  move='all'):
-
         """ HMC SAMPLER
         Args:
             f (func) : function to sample
@@ -19,13 +18,14 @@ class HAMILTONIAN(SAMPLER_BASE):
             boudnary (float) : boudnary of the space
         """
 
-        SAMPLER_BASE.__init__(self,nwalkers,nstep,nelec,ndim,step_size,domain,move)
+        SAMPLER_BASE.__init__(self, nwalkers, nstep, nelec,
+                              ndim, step_size, domain, move)
         self.nwalkers = nwalkers
 
-    def generate(self,func):
+    def generate(self, func):
 
-        def logprob(pos,func):
-            f_logp = lambda x: np.log(func(x))
+        def logprob(pos, func):
+            def f_logp(x): return np.log(func(x))
             logp = f_logp(pos)
             grad = egrad(f_logp)(pos)
 
@@ -62,8 +62,6 @@ class HAMILTONIAN(SAMPLER_BASE):
     #             orbit[k+1] = u
     #         else:
     #             orbit[k+1] = u0
-
-
 
     # def E(A, u0, v0, u, v):
     #     """Total energy."""
