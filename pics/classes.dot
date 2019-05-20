@@ -1,0 +1,70 @@
+digraph G {
+
+compound=true;
+direction=TB;
+
+subgraph clustermain{
+	style=filled;
+	rank=same;
+	node [style=filled, color=white];
+	main[label="Main", shape=circle]
+	yaml[label="YAML Input", shape=rect]
+	script[label="Python Script", shape=rect]
+	color=lightblue
+	main -> yaml;
+	main -> script; 
+}
+
+subgraph clusterWF{
+	style=filled;
+	rank=same;
+	node [style=filled, color=white];
+	baseWF[label="Base WF", shape="tripleoctagon"]
+	ham[label="Hamiltonian", shape="tripleoctagon"]	
+	pyscf[label="PYSCF", shape=rect]
+	box3d[label="Box", shape=rect]
+	pyscf -> baseWF;
+	box3d -> baseWF;
+	ham -> baseWF;
+	color=dodgerblue1;
+}
+
+subgraph clusterSampler{
+	style=filled;
+	rank=same;
+	node [style=filled, color=white];
+	baseSampler[label="Base Sampler", shape="tripleoctagon"]
+	walkers[label="Walkers", shape="tripleoctagon"]
+	vmc[label="VMC", shape=rect]
+	dmc[label="DMC", shape=rect]
+	color=dodgerblue1;
+	vmc -> baseSampler;
+	dmc -> baseSampler;
+	walkers -> baseSampler;
+}
+
+subgraph clusterOpt{
+	style=filled;
+	rank=same;
+	node [style=filled, color=white];
+	baseOpt[label="Base Optimizer", shape="tripleoctagon"]
+	scipy[label="SCIPY", shape=rect]
+	color=dodgerblue1;
+	scipy -> baseOpt;	
+}
+
+subgraph clusterGrad{
+	style=filled;
+	rank=same;
+	node [style=filled, color=white];
+	baseGrad[label="Base Gradient", shape="tripleoctagon"]
+	deriv[label="Derivatives", shape="tripleoctagon"]
+	deriv -> baseGrad;
+	color=dodgerblue1;
+}
+
+baseGrad -> main[style=invis]
+baseWF -> main[style=invis]
+baseSampler -> main[style=invis]
+baseOpt -> main[style=invis]
+}
