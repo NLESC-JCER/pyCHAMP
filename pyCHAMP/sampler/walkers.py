@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class WALKERS(object):
+class WALKERS:
 
     def __init__(self, nwalkers, nelec, ndim, domain):
 

@@ -2,7 +2,7 @@ import numpy as np
 from scipy.optimize import minimize, rosen
 
 
-class WF(object):
+class WF:
 
     def __init__(self):
         pass
