@@ -1,7 +1,8 @@
 digraph G {
 
 compound=true;
-direction=TB;
+rankdir=TB;
+
 
 subgraph clustermain{
 	style=filled;
