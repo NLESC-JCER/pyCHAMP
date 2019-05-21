@@ -1,4 +1,4 @@
-import autograd.numpy as np 
+import autograd.numpy as np
 from autograd import elementwise_grad as egrad
 from autograd import hessian, jacobian
 from functools import partial
@@ -7,9 +7,10 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
-class NEURAL_WF(object):
 
-    def __init__(self,model,nelec, ndim):
+class NeuralWF:
+
+    def __init__(self, model, nelec, ndim):
 
         self.ndim = ndim
         self.nelec = nelec
@@ -17,8 +18,8 @@ class NEURAL_WF(object):
         self.eps = 1E-6
         self.model = model()
 
-    def values(self,pos):
-        ''' Compute the value of the wave function.
+    def values(self, pos):
+        """ Compute the value of the wave function.
         for a multiple conformation of the electrons
 
         Args:
@@ -26,88 +27,83 @@ class NEURAL_WF(object):
             pos: position of the electrons
 
         Returns: values of psi
-        '''
+        """
         return self.model(pos)
 
-    def electronic_potential(self,pos):
-        '''Compute the potential of the wf points
+    def electronic_potential(self, pos):
+        """Compute the potential of the wf points
         Args:
             pos: position of the electron
 
         Returns: values of Vee * psi
-        '''
-        raise NotImplementedError()        
+        """
+        raise NotImplementedError()
 
-    def nuclear_potential(self,pos):
-        '''Compute the potential of the wf points
+    def nuclear_potential(self, pos):
+        """Compute the potential of the wf points
         Args:
             pos: position of the electron
 
         Returns: values of V * psi
-        '''
+        """
         raise NotImplementedError()
 
-
-    def kinetic_fd(self,pos,eps=1E-6):
-
-        '''Compute the action of the kinetic operator on the we points.
+    def kinetic_fd(self, pos, eps=1E-6):
+        """Compute the action of the kinetic operator on the we points.
         Args :
             pos : position of the electrons
             metod (string) : mehod to compute the derivatives
         Returns : value of K * psi
-        '''
+        """
 
         nwalk = pos.shape[0]
         ndim = pos.shape[1]
-        out = torch.zeros(nwalk,1)
+        out = torch.zeros(nwalk, 1)
         for icol in range(ndim):
 
             pos_tmp = pos.clone()
-            feps = -2*self.model(pos_tmp)            
+            feps = -2*self.model(pos_tmp)
 
             pos_tmp = pos.clone()
-            pos_tmp[:,icol] += eps
+            pos_tmp[:, icol] += eps
             feps += self.model(pos_tmp)
-            
 
             pos_tmp = pos.clone()
-            pos_tmp[:,icol] -= eps
+            pos_tmp[:, icol] -= eps
             feps += self.model(pos_tmp)
 
             out += feps/(eps**2)
 
         return out
 
-    def applyK(self,pos):
-        '''Comute the result of H * psi
+    def applyK(self, pos):
+        """Comute the result of H * psi
 
         Args :
             pos : position of the electrons
             metod (string) : mehod to compute the derivatives
         Returns : value of K * pis
-        ''' 
-        Kpsi = -0.5*self.kinetic_fd(pos) 
+        """
+        Kpsi = -0.5*self.kinetic_fd(pos)
         return Kpsi
 
-    
-    def local_energy(self,pos):
-        ''' local energy of the sampling points.'''
+    def local_energy(self, pos):
+        """ local energy of the sampling points."""
         return self.applyK(pos)/self.values(pos) \
-               + self.nuclear_potential(pos)  \
-               + self.electronic_potential(pos)
+            + self.nuclear_potential(pos)  \
+            + self.electronic_potential(pos)
 
-    def energy(self,pos):
-        '''Total energy for the sampling points.'''
+    def energy(self, pos):
+        """Total energy for the sampling points."""
         return torch.mean(self.local_energy(pos))
 
     def variance(self, pos):
-        '''Variance of the energy at the sampling points.'''
+        """Variance of the energy at the sampling points."""
         return torch.var(self.local_energy(pos))
 
-    def pdf(self,pos):
-        '''density of the wave function.'''
+    def pdf(self, pos):
+        """density of the wave function."""
         return self.values(pos)**2
-
 
 
 class WaveNet(nn.Module):

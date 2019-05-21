@@ -1,128 +1,126 @@
 import autograd.numpy as np
 
 from pyCHAMP.wavefunction.wf_base import WF
-from pyCHAMP.optimizer.minimize import MINIMIZE
-from pyCHAMP.sampler.metropolis import METROPOLIS
-from pyCHAMP.sampler.pymc3 import PYMC3
+# from pyCHAMP.optimizer.minimize import Minimize
+from pyCHAMP.sampler.metropolis import Metropolis
+# from pyCHAMP.sampler.pymc3 import PYMC3
 from pyCHAMP.solver.vmc import VMC
 
-class ORBITAL_1S(object):
 
-	def __init__(self,pos,beta):
-		self.pos = pos
-		self.beta = beta
+class Orbital1S:
 
-	def val(self,epos):
-		d = (epos-self.pos)**2
-		r = np.sqrt(d[0]+d[1]+d[2])
-		return np.exp(-self.beta*r)
+    def __init__(self, pos, beta):
+        self.pos = pos
+        self.beta = beta
 
-class H(object):
+    def val(self, epos):
+        d = (epos-self.pos)**2
+        r = np.sqrt(d[0]+d[1]+d[2])
+        return np.exp(-self.beta*r)
 
-	def __init__(self,pos):
 
-		self.name = 'H'
-		self.basis = 'minimal'
-		self.pos = np.array(pos).reshape(-1,1)
-		self.Z = 1
-		self.orbs = [ORBITAL_1S(self.pos,1.)]
+class H:
+
+    def __init__(self, pos):
+
+        self.name = 'H'
+        self.basis = 'minimal'
+        self.pos = np.array(pos).reshape(-1, 1)
+        self.Z = 1
+        self.orbs = [Orbital1S(self.pos, 1.)]
 
 
 class H2(WF):
 
-	def __init__(self,nelec,ndim):
-		
-		WF.__init__(self, nelec, ndim)
+    def __init__(self, nelec, ndim):
 
-		self.atoms = [ H([0,0,-2]),H([0,0,2])]
-		self.natom = len(self.atoms)
-		
+        WF.__init__(self, nelec, ndim)
 
-	def values(self,parameters,pos):
-		''' Compute the value of the wave function.
+        self.atoms = [H([0, 0, -2]), H([0, 0, 2])]
+        self.natom = len(self.atoms)
 
-		Args:
-			parameters : parameters of th wf
-			x: position of the electron
+    def values(self, parameters, pos):
+        """ Compute the value of the wave function.
 
-		Returns: values of psi
-		'''
+        Args:
+                parameters : parameters of th wf
+                x: position of the electron
 
-		beta = parameters[0]
-		pos = pos.T
+        Returns: values of psi
+        """
 
-		if isinstance(pos.shape[0],int):
-			nw = pos.shape[1]
-		else:
-			nw = 1
+        beta = parameters[0]
+        pos = pos.T
 
-		SD = np.zeros((nw,self.nelec,self.nelec))
-		for ielec in range(self.nelec):
+        if isinstance(pos.shape[0], int):
+            nw = pos.shape[1]
+        else:
+            nw = 1
 
-			epos = pos[ielec*self.ndim:(ielec+1)*self.ndim]
+        SD = np.zeros((nw, self.nelec, self.nelec))
+        for ielec in range(self.nelec):
 
-			iorb = 0
-			for at in self.atoms:
-				for orb in at.orbs:
-					SD[:,ielec,iorb] = orb.val(epos)
-					iorb += 1
+            epos = pos[ielec*self.ndim:(ielec+1)*self.ndim]
 
-		return np.linalg.det(SD)
+            iorb = 0
+            for at in self.atoms:
+                for orb in at.orbs:
+                    SD[:, ielec, iorb] = orb.val(epos)
+                    iorb += 1
 
-	def nuclear_potential(self,pos):
-		
-		nwalker = pos.shape[0]
-		pot = np.zeros(nwalker)
-		pos = pos.T
+        return np.linalg.det(SD)
 
-		for ielec in range(self.nelec):
-			epos = pos[ielec*self.ndim:(ielec+1)*self.ndim]
-			for at in self.atoms:
-				r = np.sqrt(np.sum((epos-at.pos)**2,0))
-				pot -= (at.Z / r)
+    def nuclear_potential(self, pos):
 
-		return pot
+        nwalker = pos.shape[0]
+        pot = np.zeros(nwalker)
+        pos = pos.T
 
-	def electronic_potential(self,pos):
+        for ielec in range(self.nelec):
+            epos = pos[ielec*self.ndim:(ielec+1)*self.ndim]
+            for at in self.atoms:
+                r = np.sqrt(np.sum((epos-at.pos)**2, 0))
+                pot -= (at.Z / r)
 
-		nwalker = pos.shape[0]
-		pot = np.zeros(nwalker)
+        return pot
 
-		for ielec1 in range(self.nelec-1):
-			epos1 = pos[:,ielec1*self.ndim:(ielec1+1)*self.ndim]
+    def electronic_potential(self, pos):
 
-			for ielec2 in range(ielec1+1,self.nelec):
-				epos2 = pos[:,ielec2*self.ndim:(ielec2+1)*self.ndim]
-				r = np.sqrt(np.sum((epos1-epos2)**2,1))
+        nwalker = pos.shape[0]
+        pot = np.zeros(nwalker)
 
-				pot -= (1./r)
+        for ielec1 in range(self.nelec-1):
+            epos1 = pos[:, ielec1*self.ndim:(ielec1+1)*self.ndim]
 
-		return pot
+            for ielec2 in range(ielec1+1, self.nelec):
+                epos2 = pos[:, ielec2*self.ndim:(ielec2+1)*self.ndim]
+                r = np.sqrt(np.sum((epos1-epos2)**2, 1))
+
+                pot -= (1./r)
+
+        return pot
 
 
 if __name__ == "__main__":
 
-	wf = H2(nelec=2, ndim=3)
-	sampler = METROPOLIS(nwalkers=1000, nstep=1000, step_size = 3, nelec=2, ndim=3, domain = {'min':-5,'max':5})
-	#sampler = PYMC3(nwalkers=100,ndim=6)
-	#sampler = HAMILTONIAN(nwalkers=1000, nstep=1000, step_size = 3, nelec=1, ndim=3)
-	#optimizer = MINIMIZE(method='bfgs', maxiter=25, tol=1E-4)
+    wf = H2(nelec=2, ndim=3)
+    sampler = Metropolis(nwalkers=1000, nstep=1000, step_size=3,
+                         nelec=2, ndim=3, domain={'min': -5, 'max': 5})
+    # sampler = PYMC3(nwalkers=100,ndim=6)
+    # sampler = Hamiltonian(nwalkers=1000, nstep=1000, step_size = 3, nelec=1, ndim=3)
+    # optimizer = Minimize(method='bfgs', maxiter=25, tol=1E-4)
 
-	# VMS solver
-	vmc = VMC(wf=wf, sampler=sampler, optimizer=None)
+    # VMS solver
+    vmc = VMC(wf=wf, sampler=sampler, optimizer=None)
 
-	# single point
-	opt_param = [1.]
-	pos,e,s = vmc.single_point(opt_param)
-	print('Energy   : ', e)
-	print('Variance : ', s)
-	vmc.plot_density(pos)
+    # single point
+    opt_param = [1.]
+    pos, e, s = vmc.single_point(opt_param)
+    print('Energy   : ', e)
+    print('Variance : ', s)
+    vmc.plot_density(pos)
 
-
-
-	# # optimization
-	# init_param = [0.5]
-	# vmc.optimize(init_param)
-	# vmc.plot_history()
-	
-
+    # # optimization
+    # init_param = [0.5]
+    # vmc.optimize(init_param)
+    # vmc.plot_history()

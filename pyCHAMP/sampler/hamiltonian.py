@@ -1,30 +1,32 @@
-import autograd.numpy as np 
-from pyCHAMP.sampler.sampler_base import SAMPLER_BASE
+import autograd.numpy as np
+from pyCHAMP.sampler.sampler_base import SamplerBase
 from autograd import elementwise_grad as egrad
 from pyhmc import hmc
 
-class HAMILTONIAN(SAMPLER_BASE):
+
+class Hamiltonian(SamplerBase):
 
     def __init__(self, nwalkers=1000, nstep=None, nelec=1, ndim=3,
-             step_size = None, domain = None,
-             move='all'):
-
-        ''' HMC SAMPLER
+                 step_size=None, domain=None,
+                 move='all'):
+        """ HMC SAMPLER
         Args:
             f (func) : function to sample
             nstep (int) : number of mc step
             nwalkers (int) : number of walkers
             eps (float) : size of the mc step
             boudnary (float) : boudnary of the space
-        '''
+        """
 
-        SAMPLER_BASE.__init__(self,nwalkers,nstep,nelec,ndim,step_size,domain,move)
+        SamplerBase.__init__(self, nwalkers, nstep, nelec,
+                             ndim, step_size, domain, move)
         self.nwalkers = nwalkers
 
-    def generate(self,func):
+    def generate(self, func):
 
-        def logprob(pos,func):
-            f_logp = lambda x: np.log(func(x))
+        def logprob(pos, func):
+            def f_logp(x):
+                return np.log(func(x))
             logp = f_logp(pos)
             grad = egrad(f_logp)(pos)
 
@@ -61,8 +63,6 @@ class HAMILTONIAN(SAMPLER_BASE):
     #             orbit[k+1] = u
     #         else:
     #             orbit[k+1] = u0
-
-
 
     # def E(A, u0, v0, u, v):
     #     """Total energy."""

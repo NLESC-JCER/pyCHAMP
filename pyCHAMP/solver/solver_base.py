@@ -1,84 +1,85 @@
-import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 
-class SOLVER_BASE(object):
 
-	def __init__(self,wf=None, sampler=None, optimizer=None):
+class SolverBase:
 
-		self.wf = wf
-		self.sampler = sampler
-		self.optimizer = optimizer	
+    def __init__(self, wf=None, sampler=None, optimizer=None):
 
-		self.history = {'eneregy':[],'variance':[],'param':[]}
+        self.wf = wf
+        self.sampler = sampler
+        self.optimizer = optimizer
 
-		if optimizer is not None:
-			self.optimizer.func = self.wf.energy
-			self.optimizer.grad = self.wf.energy_gradient
+        self.history = {'eneregy': [], 'variance': [], 'param': []}
 
-	def sample(self,param):
-		raise NotImplementedError('Implement the sample method of the solver')
+        if optimizer is not None:
+            self.optimizer.func = self.wf.energy
+            self.optimizer.grad = self.wf.energy_gradient
 
-	def energy(self,param,pos):
-		return self.wf.energy(param,pos)
+    def sample(self, param):
+        raise NotImplementedError('Implement the sample method of the solver')
 
-	def variance(self,param,pos):
-		return self.wf.variance(param,pos)
+    def energy(self, param, pos):
+        return self.wf.energy(param, pos)
 
-	def single_point(self,param):
-		pos = self.sample(param)
-		e = self.energy(param,pos)
-		s = self.variance(param,pos)
-		return pos, e, s
+    def variance(self, param, pos):
+        return self.wf.variance(param, pos)
 
-	def plot_density(self,pos):
+    def single_point(self, param):
+        pos = self.sample(param)
+        e = self.energy(param, pos)
+        s = self.variance(param, pos)
+        return pos, e, s
 
-		if self.wf.ndim == 1:
-			if self.wf.nelec == 1:
-				plt.hist(pos)
-			else:
-				for ielec in range(self.wf.nelec):
-					plt.hist(pos[ielec,:])
+    def plot_density(self, pos):
 
-		elif self.wf.ndim == 2:
-			for ielec in range(self.wf.nelec):
-				plt.scatter(pos[:,ielec*2],pos[:,ielec*2+1])
+        if self.wf.ndim == 1:
+            if self.wf.nelec == 1:
+                plt.hist(pos)
+            else:
+                for ielec in range(self.wf.nelec):
+                    plt.hist(pos[ielec, :])
 
-		elif self.wf.ndim == 3:
-			fig = plt.figure()
-			ax = fig.add_subplot(111,projection='3d')
-			for ielec in range(self.wf.nelec):
-				ax.scatter(pos[:,ielec*3],pos[:,ielec*3+1],pos[:,ielec*3+2])
-		plt.show()
+        elif self.wf.ndim == 2:
+            for ielec in range(self.wf.nelec):
+                plt.scatter(pos[:, ielec*2], pos[:, ielec*2+1])
 
-	def plot_history(self):
+        elif self.wf.ndim == 3:
+            fig = plt.figure()
+            ax = fig.add_subplot(111, projection='3d')
+            for ielec in range(self.wf.nelec):
+                ax.scatter(pos[:, ielec*3], pos[:, ielec*3+1],
+                           pos[:, ielec*3+2])
+        plt.show()
 
-		plt.plot(self.history['energy'])
-		plt.plot(self.history['variance'])
-		plt.show()
+    def plot_history(self):
 
-	def optimize(self,init_param):
+        plt.plot(self.history['energy'])
+        plt.plot(self.history['variance'])
+        plt.show()
 
-		param = init_param
-		self.history['energy'] = []
-		self.history['variance'] = []
-		self.history['param'] = []
+    def optimize(self, init_param):
 
-		for i in range(self.optimizer.maxiter):
+        param = init_param
+        self.history['energy'] = []
+        self.history['variance'] = []
+        self.history['param'] = []
 
-			pos = self.sample(param)
-			e = self.energy(param,pos)
-			s = self.variance(param,pos)
+        for i in range(self.optimizer.maxiter):
 
-			param, success = self.optimizer.update_parameters(param,pos)
-			print('%d energy = %f, variance = %f (beta=%f)' %(i,e,s,param[0]))
+            pos = self.sample(param)
+            e = self.energy(param, pos)
+            s = self.variance(param, pos)
 
-			self.history['energy'].append(e)
-			self.history['variance'].append(s)
-			self.history['param'].append(param)
+            param, success = self.optimizer.update_parameters(param, pos)
+            print('%d energy = %f, variance = %f (beta=%f)' %
+                  (i, e, s, param[0]))
 
-			if success:
-				print('Optimization Done')
-				break
+            self.history['energy'].append(e)
+            self.history['variance'].append(s)
+            self.history['param'].append(param)
 
-		return success
+            if success:
+                print('Optimization Done')
+                break
+
+        return success
