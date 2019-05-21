@@ -39,6 +39,7 @@ setup(
         'Topic :: Scientific/Engineering :: Chemistry'
     ],
     test_suite='tests',
+    setup_requires=['cython', 'numpy', 'pytest-runner'],
     install_requires=['autograd', 'cython', 'matplotlib', 'numpy', 'pyhmc', 'pyyaml>=5.1',
                       'schema', 'scipy', 'tqdm'],
     extras_require={
