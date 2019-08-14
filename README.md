@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/NLESC-JCER/pyCHAMP.svg?branch=master)](https://travis-ci.org/NLESC-JCER/pyCHAMP)
+
 # pyCHAMP
 
 Quantum Monte Carlo code in Python
@@ -25,7 +27,7 @@ pyCHAMP allows to run small Variational QMC calculations in Python. Diffusion Mo
 ```python
 
 from pyCHAMP.wavefunction.wf_base import WF
-from pyCHAMP.sampler.metropolis import METROPOLIS
+from pyCHAMP.sampler.metropolis import Metropolis
 from pyCHAMP.solver.vmc import VMC
 
 class HarmOsc1D(WF):
@@ -51,7 +53,7 @@ class HarmOsc1D(WF):
         return 0
         
 wf = HarmOsc1D(nelec=1, ndim=1)
-sampler = METROPOLIS(nwalkers=1000, nstep=1000, step_size = 3, nelec=1, ndim=1, domain = {'min':-2,'max':2})
+sampler = Metropolis(nwalkers=1000, nstep=1000, step_size = 3, nelec=1, ndim=1, domain = {'min':-2,'max':2})
 
 vmc = VMC(wf=wf, sampler=sampler, optimizer=None)
 opt_param = [0.5]
@@ -80,8 +82,8 @@ and plot the following distribution
 import autograd.numpy as np
 
 from pyCHAMP.wavefunction.wf_base import WF
-from pyCHAMP.sampler.metropolis import METROPOLIS
-from pyCHAMP.optimizer.minimize import MINIMIZE
+from pyCHAMP.sampler.metropolis import Metropolis
+from pyCHAMP.optimizer.minimize import Minimize
 from pyCHAMP.solver.vmc import VMC
 
 class HarmOsc3D(WF):
@@ -111,8 +113,8 @@ class HarmOsc3D(WF):
 		return 0
 
 wf = HarmOsc3D(nelec=1, ndim=3)
-sampler = METROPOLIS(nwalkers=1000, nstep=1000, step_size=3, nelec=1, ndim=3, domain = {'min':-2,'max':2})
-optimizer = MINIMIZE(method='bfgs', maxiter=20, tol=1E-4)
+sampler = Metropolis(nwalkers=1000, nstep=1000, step_size=3, nelec=1, ndim=3, domain = {'min':-2,'max':2})
+optimizer = Minimize(method='bfgs', maxiter=20, tol=1E-4)
 
 # VMC solver
 vmc = VMC(wf=wf, sampler=sampler, optimizer=optimizer)
